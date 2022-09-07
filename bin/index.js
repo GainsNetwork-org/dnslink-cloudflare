@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import meow from 'meow';
-import { update } from '../lib/index.js';
+const meow = require('meow')
+const update = require('../lib')
 
 const cli = meow(`
     Updates the dnslink for a Cloudflare configuration. Both the CF_API_KEY and CF_API_EMAIL environment
@@ -15,7 +15,6 @@ const cli = meow(`
       --link, -k        dnslink value, eg. ipfs path
       --record, -r      Domain record name
 `, {
-  importMeta: import.meta,
   flags: {
     domain: {
       type: 'string',
