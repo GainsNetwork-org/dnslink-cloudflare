@@ -13,7 +13,6 @@ const cli = meow(`
     Options
       --domain, -d      Cloudflare domain name
       --link, -k        dnslink value, eg. ipfs path
-      --record, -r      Domain record name
 `, {
   flags: {
     domain: {
@@ -25,11 +24,6 @@ const cli = meow(`
       type: 'string',
       alias: 'l',
       isRequired: true
-    },
-    record: {
-      alias: 'r',
-      type: 'string',
-      default: '@'
     }
   }
 })
@@ -51,14 +45,14 @@ async function run () {
   }
 
   const opts = {
-    record: cli.flags.record === '@' ? cli.flags.domain : `${cli.flags.record}.${cli.flags.domain}`,
+    record: cli.flags.domain,
     zone: cli.flags.domain,
     link: cli.flags.link
   }
 
   try {
     const content = await update(api, opts)
-    console.log(`Updated TXT ${opts.record} to ${content}`)
+    console.log(`Applied rewrite rules for ${opts.record} to ${content}`)
   } catch (err) {
     console.log(err)
     process.exit(1)
